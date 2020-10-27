@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://www.7torrents.cc/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=d315b46408463802d45a81787fa0601aa1603825360; PHPSESSID=a16d22ke9nr2qtj9ucv3l2n2oo"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": ""
+  },
+  {
+    "id": "the7torrentswebsitedoesnotprovidecategories.selectthecategoryyouwantjacketttosetonallresultsreturned.",
+    "type": "inputselect",
+    "name": "The 7torrents web site does not provide categories. Select the category you want Jackett to set on all results returned.",
+    "value": "1",
+    "options": {
+      "1": "TV",
+      "2": "Movies",
+      "3": "Other"
+    }
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "seeders",
+    "options": {
+      "created": "created",
+      "length": "size",
+      "seeders": "seeders"
+    }
+  }
+]

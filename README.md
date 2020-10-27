@@ -1,4 +1,4 @@
-# Project Title
+# Automated Media Server (Docker)
 
 ## Table of Contents
 

@@ -1,0 +1,79 @@
+version: "3.4"
+services:
+  # NOTE: Make sure that libraries are set to /tv and /movies
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    # network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+    volumes:
+      - /Users/bensykes/Downloads/tv:/tv
+      - /Users/bensykes/Downloads/movies:/movies
+    restart: unless-stopped
+    ports:
+      - "32400:32400"
+  # NOTE: Make sure to set download directory to /downloads
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    # network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+      - UMASK_SET=022 #optional
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /Users/bensykes/Downloads/torrents:/downloads
+    restart: unless-stopped
+    ports:
+      - "8112:8112"
+  # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+      - UMASK_SET=022 #optional
+    volumes:
+      - /Users/bensykes/Downloads/tv:/tv
+      - /Users/bensykes/Downloads/torrents:/downloads
+    ports:
+      - "8989:8989"
+    restart: unless-stopped
+  # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+      - UMASK_SET=022 #optional
+    volumes:
+      - /Users/bensykes/Downloads/movies:/movies
+      - /Users/bensykes/Downloads/torrents:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
+  # Also: Ensure trackers are setup from config
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+      - AUTO_UPDATE=true #optional
+    volumes:
+      - /Users/bensykes/Downloads/torrents:/downloads
+    ports:
+      - "9117:9117"
+    restart: unless-stopped
