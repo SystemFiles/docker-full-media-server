@@ -4,23 +4,21 @@ services:
   plex:
     image: linuxserver/plex
     container_name: plex
-    # network_mode: host
+    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
       - UMASK_SET=022 #optional
     volumes:
-      - /Users/bensykes/Downloads/tv:/tv # Change path for volume mount
-      - /Users/bensykes/Downloads/movies:/movies # Change path for volume mount
+      - /media/plex/tv:/tv # Change path for volume mount
+      - /media/plex/movies:/movies # Change path for volume mount
     restart: unless-stopped
-    ports:
-      - "32400:32400"
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge
     container_name: deluge
-    # network_mode: host
+    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
@@ -28,10 +26,8 @@ services:
       - UMASK_SET=022 #optional
       - DELUGE_LOGLEVEL=error #optional
     volumes:
-      - /Users/bensykes/Downloads/torrents:/downloads # Change path for volume mount
+      - /media/downloads:/downloads # Change path for volume mount
     restart: unless-stopped
-    ports:
-      - "8112:8112"
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
     image: linuxserver/sonarr
@@ -42,8 +38,8 @@ services:
       - TZ=America/New York
       - UMASK_SET=022 #optional
     volumes:
-      - /Users/bensykes/Downloads/tv:/tv # Change path for volume mount
-      - /Users/bensykes/Downloads/torrents:/downloads # Change path for volume mount
+      - /media/plex/tv:/tv # Change path for volume mount
+      - /media/downloads:/downloads # Change path for volume mount
     ports:
       - "8989:8989"
     restart: unless-stopped
@@ -57,8 +53,8 @@ services:
       - TZ=America/New York
       - UMASK_SET=022 #optional
     volumes:
-      - /Users/bensykes/Downloads/movies:/movies # Change path for volume mount
-      - /Users/bensykes/Downloads/torrents:/downloads # Change path for volume mount
+      - /media/plex/movies:/movies # Change path for volume mount
+      - /media/downloads:/downloads # Change path for volume mount
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -73,8 +69,7 @@ services:
       - TZ=America/New York
       - AUTO_UPDATE=true #optional
     volumes:
-      - ./config/jackett:/config
-      - /Users/bensykes/Downloads/torrents:/downloads # Change path for volume mount
+      - /media/downloads:/downloads # Change path for volume mount
     ports:
       - "9117:9117"
     restart: unless-stopped
