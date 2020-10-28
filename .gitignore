@@ -1,2 +1,5 @@
+# Config files
+./config/
+
 # Misc
 .DS_Store

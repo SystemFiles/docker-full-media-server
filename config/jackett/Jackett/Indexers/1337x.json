@@ -9,7 +9,7 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d5e8ac31e43953081ee15f8abf444ba751603830376"
+    "value": "__cfduid=d6d643e44ad4f888a46a804803dfa335b1603845103"
   },
   {
     "id": "lasterror",
@@ -33,7 +33,7 @@
     "id": "sortrequestedfromsite",
     "type": "inputselect",
     "name": "Sort requested from site",
-    "value": "seeders",
+    "value": "time",
     "options": {
       "time": "created",
       "seeders": "seeders",

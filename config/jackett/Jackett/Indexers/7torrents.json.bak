@@ -9,7 +9,7 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d315b46408463802d45a81787fa0601aa1603825360; PHPSESSID=a16d22ke9nr2qtj9ucv3l2n2oo"
+    "value": "__cfduid=d96a1e12b4821fb030126e3eac7ea66651603845103; PHPSESSID=se09ocfj9frhvqst9l0ov5pbto"
   },
   {
     "id": "lasterror",
@@ -32,7 +32,7 @@
     "id": "sortrequestedfromsite",
     "type": "inputselect",
     "name": "Sort requested from site",
-    "value": "seeders",
+    "value": "created",
     "options": {
       "created": "created",
       "length": "size",

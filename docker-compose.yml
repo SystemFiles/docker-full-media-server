@@ -73,6 +73,7 @@ services:
       - TZ=America/New York
       - AUTO_UPDATE=true #optional
     volumes:
+      - ./config/jackett:/config
       - /Users/bensykes/Downloads/torrents:/downloads # Change path for volume mount
     ports:
       - "9117:9117"
