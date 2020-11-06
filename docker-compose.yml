@@ -1,10 +1,29 @@
 version: "3.4"
+
+# Include all required services configuration
+# Ensure a few things are modified:
+# 1. ENV vars
+# 2. Volume mounts (for where you would like volumes mounted on your host)
+# 3. Decide if you would like to mount /config on each service so you can keep a copy on your host of the config and make changes manually if necessary (outside of container)
 services:
-  # NOTE: Make sure that libraries are set to /tv and /movies
+  # Front-end plex (reverse-proxy)
+  webserver:
+    container_name: webserver
+    image: nginx:mainline-alpine
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - plex
+    ports:
+      - 80:80
+    restart: unless-stopped
+    networks:
+      - media-server-network
+  # NOTE: Make sure that libraries are set to /tv and /movies in plex configuration
   plex:
     image: linuxserver/plex
     container_name: plex
-    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
@@ -13,12 +32,15 @@ services:
     volumes:
       - /media/plex/tv:/tv # Change path for volume mount
       - /media/plex/movies:/movies # Change path for volume mount
+    ports:
+      - 32400:32400
+    networks:
+      - media-server-network
     restart: unless-stopped
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge
     container_name: deluge
-    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
@@ -27,6 +49,10 @@ services:
       - DELUGE_LOGLEVEL=error #optional
     volumes:
       - /media/downloads:/downloads # Change path for volume mount
+    ports:
+      - 8112:8112
+    networks:
+      - media-server-network
     restart: unless-stopped
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
@@ -41,7 +67,9 @@ services:
       - /media/plex/tv:/tv # Change path for volume mount
       - /media/downloads:/downloads # Change path for volume mount
     ports:
-      - "8989:8989"
+      - 8989:8989
+    networks:
+      - media-server-network
     restart: unless-stopped
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
@@ -57,6 +85,8 @@ services:
       - /media/downloads:/downloads # Change path for volume mount
     ports:
       - 7878:7878
+    networks:
+      - media-server-network
     restart: unless-stopped
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
@@ -71,5 +101,15 @@ services:
     volumes:
       - /media/downloads:/downloads # Change path for volume mount
     ports:
-      - "9117:9117"
+      - 9117:9117
+    networks:
+      - media-server-network
     restart: unless-stopped
+
+volumes:
+  web-root:
+    driver: local
+
+networks:
+  media-server-network:
+    driver: bridge

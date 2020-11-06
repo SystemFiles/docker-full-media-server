@@ -1,0 +1,29 @@
+name: test-compose
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run init
+        run: ./.github/init.sh
+      - name: Docker compose up
+        run: |
+          docker-compose up
+      - name: Test connectivity to plex WSDL
+        run: curl http://localhost/
+      - name: Text connectivity to deluge
+        run: curl http://localhost/deluge
+      - name: Text connectivity to radarr
+        run: curl http://localhost/radarr
+      - name: Text connectivity to sonarr
+        run: curl http://localhost/sonarr
+      - name: Text connectivity to jackett
+        run: curl http://localhost/jackett
