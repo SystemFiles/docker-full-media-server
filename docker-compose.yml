@@ -115,6 +115,11 @@ volumes:
   web-root:
     driver: local
 
+# NOTE: It is very important that if you are also running a OpenVPN service on the host, that you include the EXACT subnet address for the network interface to use.
+#       The reason for this is to avoid overlapping of IPv4 addresses. This way as long as your openVPN service is not using the 172.16.57.0/24 subnet, you should not have any overlap.
 networks:
   media-server-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.57.0/24
