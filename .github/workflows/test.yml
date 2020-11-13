@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run init
         run: ./.github/init.sh
-      - name: Docker compose up
+      - name: Run Docker-Compose
         run: |
-          docker-compose up
+          docker-compose up -d
       - name: Test connectivity to plex WSDL
         run: curl http://localhost/
       - name: Text connectivity to deluge

@@ -33,8 +33,6 @@ services:
       - /home/ben/mediaserver/plex:/config # Change path for volume mount
       - /media/plex/tv:/tv # Change path for volume mount
       - /media/plex/movies:/movies # Change path for volume mount
-    ports:
-      - 32400:32400
     networks:
       - media-server-network
     restart: unless-stopped
@@ -51,8 +49,6 @@ services:
     volumes:
       - /home/ben/mediaserver/deluge:/config # Change path for volume mount
       - /media/downloads:/downloads # Change path for volume mount
-    ports:
-      - 8112:8112
     networks:
       - media-server-network
     restart: unless-stopped
@@ -69,8 +65,6 @@ services:
       - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
       - /media/plex/tv:/tv # Change path for volume mount
       - /media/downloads:/downloads # Change path for volume mount
-    ports:
-      - 8989:8989
     networks:
       - media-server-network
     restart: unless-stopped
@@ -87,8 +81,6 @@ services:
       - /home/ben/mediaserver/radarr:/config # Change path for volume mount
       - /media/plex/movies:/movies # Change path for volume mount
       - /media/downloads:/downloads # Change path for volume mount
-    ports:
-      - 7878:7878
     networks:
       - media-server-network
     restart: unless-stopped
@@ -105,8 +97,6 @@ services:
     volumes:
       - /home/ben/mediaserver/jackett:/config # Change path for volume mount
       - /media/downloads:/downloads # Change path for volume mount
-    ports:
-      - 9117:9117
     networks:
       - media-server-network
     restart: unless-stopped
