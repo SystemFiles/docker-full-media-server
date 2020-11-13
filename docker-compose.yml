@@ -14,7 +14,7 @@ services:
       - web-root:/var/www/html
       - ./nginx:/etc/nginx/conf.d
     depends_on:
-      - plex
+      - jellyfin
     ports:
       - 80:80
     restart: unless-stopped
