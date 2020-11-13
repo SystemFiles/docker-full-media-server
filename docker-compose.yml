@@ -20,19 +20,24 @@ services:
     restart: unless-stopped
     networks:
       - media-server-network
-  # NOTE: Make sure that libraries are set to /tv and /movies in plex configuration
-  plex:
-    image: linuxserver/plex
-    container_name: plex
+  # NOTE: Make sure that libraries are set to /tv and /movies in configuration
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
     environment:
       - PUID=1000
       - PGID=1000
-      - VERSION=docker
-      - UMASK_SET=022 #optional
+      - TZ=America/New York
+      - UMASK_SET=<022> #optional
     volumes:
-      - /home/ben/mediaserver/plex:/config # Change path for volume mount
-      - /media/plex/tv:/tv # Change path for volume mount
-      - /media/plex/movies:/movies # Change path for volume mount
+      - /home/ben/mediaserver/jellyfin:/config
+      - /media/plex/tv:/data/tvshows
+      - /media/plex/movies:/data/movies
+    ports:
+      - 7359:7359/udp # Discovery on network
+      - 1900:1900/udp # Discover on network by DNLA and clients
+    devices:
+      - /dev/dri:/dev/dri # Remove this if you do not want to use INTEL GPU for hardware excellerated transcoding
     networks:
       - media-server-network
     restart: unless-stopped
