@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run init
-        run: ./.github/init.sh
       - name: Setup docker
         uses: docker-practice/actions-setup-docker@v1
       - name: Run Docker-Compose
