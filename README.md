@@ -21,15 +21,29 @@ services:
     container_name: webserver
     image: nginx:mainline-alpine
     volumes:
-      - web-root:/var/www/html
-      - ./nginx:/etc/nginx/conf.d
+      - web-root:/var/www/html # Volume mount for web-root (optional)
+      - ./nginx:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
     depends_on:
       - jellyfin
+      - ombi
     ports:
       - 80:80
     restart: unless-stopped
     networks:
       - media-server-network
+  # NOTE: There are no ports specified for this service since it is accessible using provided nginx configuration
+  ombi:
+    image: linuxserver/ombi
+    container_name: ombi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+    volumes:
+      - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
+    networks:
+      - media-server-network
+    restart: unless-stopped
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
     image: linuxserver/jellyfin
@@ -40,9 +54,9 @@ services:
       - TZ=America/New York
       - UMASK_SET=<022> #optional
     volumes:
-      - /home/ben/mediaserver/jellyfin:/config
-      - /media/jellyfin/tv:/data/tvshows
-      - /media/jellyfin/movies:/data/movies
+      - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
+      - /media/jellyfin/tv:/data/tvshows # TV Shows location
+      - /media/jellyfin/movies:/data/movies # Movies location
     ports:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
