@@ -10,18 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run init
-        run: ./.github/init.sh
+      - name: Setup docker
+        uses: docker-practice/actions-setup-docker@v1
       - name: Run Docker-Compose
         run: |
           docker-compose up -d
-      - name: Test connectivity to plex WSDL
-        run: curl http://localhost/
-      - name: Text connectivity to deluge
-        run: curl http://localhost/deluge
-      - name: Text connectivity to radarr
-        run: curl http://localhost/radarr
-      - name: Text connectivity to sonarr
-        run: curl http://localhost/sonarr
-      - name: Text connectivity to jackett
-        run: curl http://localhost/jackett
+      - name: Verify servies are running properly
+        run: |
+          docker-compose ps
+          docker ps -a
