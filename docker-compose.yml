@@ -5,6 +5,7 @@ version: "3.4"
 # 1. ENV vars
 # 2. Volume mounts (for where you would like volumes mounted on your host)
 # 3. Decide if you would like to mount /config on each service so you can keep a copy on your host of the config and make changes manually if necessary (outside of container)
+
 services:
   # Front-end jellyfin (reverse-proxy)
   webserver:
