@@ -6,7 +6,7 @@ This is my configuration for my personal home media server installation using `d
 
 This project has a small number of requirements to run successfully
 
-- Docker ([Download from here](https://www.docker.com/get-started))
+- Docker ([More Info](https://www.docker.com/get-started))
 - Docker-Compose ([More Info](https://docs.docker.com/compose/))
 - Availability of self-signed or publicly trusted SSL certificates from a CA.
 - `root` or `sudo` access on your machine
