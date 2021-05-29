@@ -21,6 +21,8 @@ jobs:
           docker ps -a
       - name: Test connectivity (all services)
         run: |
+          # Provide some extra time for services to be ready
+          sleep 5
           docker run --network docker-full-media-server_media-server-network curlimages/curl curl webserver:80 > /dev/null
           docker run --network docker-full-media-server_media-server-network curlimages/curl curl ombi:3579 > /dev/null
           docker run --network docker-full-media-server_media-server-network curlimages/curl curl deluge:8112 > /dev/null
