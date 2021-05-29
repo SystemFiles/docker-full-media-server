@@ -19,3 +19,11 @@ jobs:
         run: |
           docker-compose ps
           docker ps -a
+      - name: Test connectivity (all services)
+        run: |
+          docker run --network docker-full-media-server_media-server-network curlimages/curl curl webserver:80 > /dev/null
+          docker run --network docker-full-media-server_media-server-network curlimages/curl curl ombi:3579 > /dev/null
+          docker run --network docker-full-media-server_media-server-network curlimages/curl curl deluge:8112 > /dev/null
+          docker run --network docker-full-media-server_media-server-network curlimages/curl curl sonarr:8989 > /dev/null
+          docker run --network docker-full-media-server_media-server-network curlimages/curl curl radarr:7878 > /dev/null
+          docker run --network docker-full-media-server_media-server-network curlimages/curl curl jackett:9117 > /dev/null
