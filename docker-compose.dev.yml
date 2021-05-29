@@ -13,16 +13,12 @@ services:
     image: nginx:1.21.0-alpine
     volumes:
       - web-root:/var/www/html # Volume mount for web-root (optional)
-      - ./nginx/conf.d:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
-      - ./nginx/snippets:/snippets # Volume mount for some nginx config snippets (required)
-      - /etc/ssl/certs:/ssl/certs # Volume mount for SSL certificates, including dhparam (required)
-      - /etc/ssl/private/:/ssl/private # Volume mount for private keys (required)
+      - ./nginx:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
     depends_on:
       - jellyfin
       - ombi
     ports:
       - 80:80
-      - 443:443
     restart: unless-stopped
     networks:
       - media-server-network
@@ -34,8 +30,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-    volumes:
-      - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
     networks:
       - media-server-network
     restart: unless-stopped
@@ -49,9 +43,8 @@ services:
       - TZ=America/New York
       - UMASK_SET=<022> #optional
     volumes:
-      - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
-      - /media/jellyfin/tv:/data/tvshows # TV Shows location
-      - /media/jellyfin/movies:/data/movies # Movies location
+      - shared-media:/data/tvshows # TV Shows location
+      - shared-media:/data/movies # Movies location
     ports:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
@@ -71,8 +64,7 @@ services:
       - UMASK_SET=022 #optional
       - DELUGE_LOGLEVEL=error #optional
     volumes:
-      - /home/ben/mediaserver/deluge:/config # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - shared-media:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8112:8112
     networks:
@@ -88,9 +80,8 @@ services:
       - TZ=America/New York
       - UMASK_SET=022 #optional
     volumes:
-      - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
-      - /media/jellyfin/tv:/tv # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - shared-media:/tv # Change path for volume mount
+      - shared-media:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8989:8989
     networks:
@@ -106,9 +97,8 @@ services:
       - TZ=America/New York
       - UMASK_SET=022 #optional
     volumes:
-      - /home/ben/mediaserver/radarr:/config # Change path for volume mount
-      - /media/jellyfin/movies:/movies # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - shared-media:/movies # Change path for volume mount
+      - shared-media:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:7878:7878
     networks:
@@ -125,8 +115,7 @@ services:
       - TZ=America/New York
       - AUTO_UPDATE=true #optional
     volumes:
-      - /home/ben/mediaserver/jackett:/config # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - shared-media:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:9117:9117
     networks:
@@ -135,6 +124,8 @@ services:
 
 volumes:
   web-root:
+    driver: local
+  shared-media:
     driver: local
 
 # NOTE: It is very important that if you are also running a OpenVPN service on the host, that you include the EXACT subnet address for the network interface to use.
