@@ -13,12 +13,16 @@ services:
     image: nginx:1.21.0-alpine
     volumes:
       - web-root:/var/www/html # Volume mount for web-root (optional)
-      - ./nginx:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
+      - ./nginx/conf.d:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
+      - ./nginx/snippets:/snippets # Volume mount for some nginx config snippets (required)
+      - /etc/ssl/certs:/ssl/certs # Volume mount for SSL certificates, including dhparam (required)
+      - /etc/ssl/private/:/ssl/private # Volume mount for private keys (required)
     depends_on:
       - jellyfin
       - ombi
     ports:
       - 80:80
+      - 443:443
     restart: unless-stopped
     networks:
       - media-server-network
