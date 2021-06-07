@@ -236,3 +236,10 @@ ufw enable
 ```
 
 > Start and enable on startup, your firewall using `UFW`.
+
+## Networking and Monitoring
+
+I like to use some specific networking and monitoring tools that work well with this stack. Below are the repositories for that configuration
+
+- [Server Tools (network/monitor)](https://github.com/SystemFiles/docker-server-tools)
+- [Pihole Standalone Config (deprecated: included in Server Tools)](https://github.com/SystemFiles/pihole-compose)
