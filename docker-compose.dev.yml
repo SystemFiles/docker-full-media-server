@@ -15,8 +15,8 @@ services:
       - web-root:/var/www/html # Volume mount for web-root (optional)
       - ./nginx/conf.d:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
       - ./nginx/snippets:/snippets # Volume mount for some nginx config snippets (required)
-      - /etc/ssl/certs:/ssl/certs # Volume mount for SSL certificates, including dhparam (required)
-      - /etc/ssl/private/:/ssl/private # Volume mount for private keys (required)
+      # - /etc/ssl/certs:/ssl/certs # Volume mount for SSL certificates, including dhparam (required)
+      # - /etc/ssl/private/:/ssl/private # Volume mount for private keys (required)
     depends_on:
       - jellyfin
       - ombi
@@ -34,8 +34,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-    volumes:
-      - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
+    # volumes:
+      # - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
     networks:
       - media-server-network
     restart: unless-stopped
@@ -48,10 +48,10 @@ services:
       - PGID=1000
       - TZ=America/New York
       - UMASK_SET=<022> #optional
-    volumes:
-      - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
-      - /media/jellyfin/tv:/data/tvshows # TV Shows location
-      - /media/jellyfin/movies:/data/movies # Movies location
+    # volumes:
+      # - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
+      # - /media/jellyfin/tv:/data/tvshows # TV Shows location
+      # - /media/jellyfin/movies:/data/movies # Movies location
     ports:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
@@ -70,9 +70,9 @@ services:
       - TZ=America/New York
       - UMASK_SET=022 # optional
       - DELUGE_LOGLEVEL=error # optional
-    volumes:
-      - /home/ben/mediaserver/deluge:/config # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+    # volumes:
+      # - /home/ben/mediaserver/deluge:/config # Change path for volume mount
+      # - /media/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8112:8112
     networks:
@@ -87,10 +87,10 @@ services:
       - PGID=1000
       - TZ=America/New York
       - UMASK_SET=022 # optional
-    volumes:
-      - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
-      - /media/jellyfin/tv:/tv # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+    # volumes:
+      # - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
+      # - /media/jellyfin/tv:/tv # Change path for volume mount
+      # - /media/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8989:8989
     networks:
@@ -105,10 +105,10 @@ services:
       - PGID=1000
       - TZ=America/New York
       - UMASK_SET=022 #optional
-    volumes:
-      - /home/ben/mediaserver/radarr:/config # Change path for volume mount
-      - /media/jellyfin/movies:/movies # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+    # volumes:
+      # - /home/ben/mediaserver/radarr:/config # Change path for volume mount
+      # - /media/jellyfin/movies:/movies # Change path for volume mount
+      # - /media/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:7878:7878
     networks:
@@ -124,9 +124,9 @@ services:
       - PGID=1000
       - TZ=America/New York
       - AUTO_UPDATE=true # optional
-    volumes:
-      - /home/ben/mediaserver/jackett:/config # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+    # volumes:
+      # - /home/ben/mediaserver/jackett:/config # Change path for volume mount
+      # - /media/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:9117:9117
     networks:
@@ -143,10 +143,10 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-    volumes:
-      - /home/ben/mediaserver/bazarr:/config
-      - /media/jellyfin/movies:/movies # optonal
-      - /media/jellyfin/tv:/tv  # optional
+    # volumes:
+      # - /home/ben/mediaserver/bazarr:/config
+      # - /media/jellyfin/movies:/movies # optonal
+      # - /media/jellyfin/tv:/tv  # optional
     ports:
       - 127.0.0.1:6767:6767
     networks:
