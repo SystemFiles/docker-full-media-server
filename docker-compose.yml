@@ -132,6 +132,26 @@ services:
     networks:
       - media-server-network
     restart: unless-stopped
+  # Bazarr: a companion application to Sonarr and Radarr. 
+  #         It can manage and download subtitles based on your requirements. 
+  #         You define your preferences by TV show or movie and 
+  #         Bazarr takes care of everything for you
+  bazarr:
+    image: linuxserver/bazarr:version-v0.9.5
+    container_name: bazarr
+    environment: 
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+    volumes:
+      - /home/ben/mediaserver/bazarr:/config
+      - /media/jellyfin/movies:/movies # optonal
+      - /media/jellyfin/tv:/tv  # optional
+    ports:
+      - 127.0.0.1:6767:6767
+    networks:
+      - media-server-network
+    restart: unless-stopped
 
 volumes:
   web-root:
