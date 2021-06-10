@@ -12,6 +12,7 @@ services:
     image: linuxserver/ombi:latest
     hostname: ombi
     container_name: ombi
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -20,12 +21,12 @@ services:
       - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
     networks:
       - media-server-network
-    restart: unless-stopped
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
     image: linuxserver/jellyfin:version-10.7.5-1
     hostname: jellyfin
     container_name: jellyfin
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -42,12 +43,12 @@ services:
     #   - /dev/dri:/dev/dri # Remove this if you do not want to use INTEL GPU for hardware excellerated transcoding
     networks:
       - media-server-network
-    restart: unless-stopped
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls106
     hostname: deluge
     container_name: deluge
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -61,12 +62,12 @@ services:
       - 127.0.0.1:8112:8112
     networks:
       - media-server-network
-    restart: unless-stopped
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
     image: linuxserver/sonarr:version-3.0.6.1196
     hostname: sonarr
     container_name: sonarr
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -80,12 +81,12 @@ services:
       - 127.0.0.1:8989:8989
     networks:
       - media-server-network
-    restart: unless-stopped
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
     image: linuxserver/radarr:version-3.2.0.5048
     hostname: radarr
     container_name: radarr
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -98,14 +99,14 @@ services:
     ports:
       - 127.0.0.1:7878:7878
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - media-server-network    
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
     image: linuxserver/jackett:version-v0.18.171
     hostname: jackett
     container_name: jackett
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -118,7 +119,6 @@ services:
       - 127.0.0.1:9117:9117
     networks:
       - media-server-network
-    restart: unless-stopped
 
 # NOTE: It is very important that if you are also running a OpenVPN service on the host, that you include the EXACT subnet address for the network interface to use.
 #       The reason for this is to avoid overlapping of IPv4 addresses. This way as long as your openVPN service is not using the 172.16.57.0/24 subnet, you should not have any overlap.
