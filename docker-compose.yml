@@ -7,28 +7,10 @@ version: "3.7"
 # 3. Decide if you would like to mount /config on each service so you can keep a copy on your host of the config and make changes manually if necessary (outside of container)
 
 services:
-  # Front-end jellyfin (reverse-proxy)
-  webserver:
-    container_name: webserver
-    image: nginx:1.21.0-alpine
-    volumes:
-      - web-root:/var/www/html # Volume mount for web-root (optional)
-      - ./nginx/conf.d:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
-      - ./nginx/snippets:/snippets # Volume mount for some nginx config snippets (required)
-      - /etc/ssl/certs:/ssl/certs # Volume mount for SSL certificates, including dhparam (required)
-      - /etc/ssl/private/:/ssl/private # Volume mount for private keys (required)
-    depends_on:
-      - jellyfin
-      - ombi
-    ports:
-      - 80:80
-      - 443:443
-    restart: unless-stopped
-    networks:
-      - media-server-network
-  # NOTE: There are no ports specified for this service since it is accessible using provided nginx configuration
+  # NOTE: There are no ports specified for this service to access it add port mappings or use the nginx reverse proxy included in docker-server-tools
   ombi:
     image: linuxserver/ombi:latest
+    hostname: ombi
     container_name: ombi
     environment:
       - PUID=1000
@@ -42,6 +24,7 @@ services:
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
     image: linuxserver/jellyfin:version-10.7.5-1
+    hostname: jellyfin
     container_name: jellyfin
     environment:
       - PUID=1000
@@ -63,6 +46,7 @@ services:
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls106
+    hostname: deluge
     container_name: deluge
     environment:
       - PUID=1000
@@ -81,6 +65,7 @@ services:
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
     image: linuxserver/sonarr:version-3.0.6.1196
+    hostname: sonarr
     container_name: sonarr
     environment:
       - PUID=1000
@@ -99,6 +84,7 @@ services:
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
     image: linuxserver/radarr:version-3.2.0.5048
+    hostname: radarr
     container_name: radarr
     environment:
       - PUID=1000
@@ -118,6 +104,7 @@ services:
   # Also: Ensure trackers are setup from config
   jackett:
     image: linuxserver/jackett:version-v0.18.171
+    hostname: jackett
     container_name: jackett
     environment:
       - PUID=1000
@@ -132,30 +119,6 @@ services:
     networks:
       - media-server-network
     restart: unless-stopped
-  # Bazarr: a companion application to Sonarr and Radarr. 
-  #         It can manage and download subtitles based on your requirements. 
-  #         You define your preferences by TV show or movie and 
-  #         Bazarr takes care of everything for you
-  bazarr:
-    image: linuxserver/bazarr:version-v0.9.5
-    container_name: bazarr
-    environment: 
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New York
-    volumes:
-      - /home/ben/mediaserver/bazarr:/config
-      - /media/jellyfin/movies:/movies # optonal
-      - /media/jellyfin/tv:/tv  # optional
-    ports:
-      - 127.0.0.1:6767:6767
-    networks:
-      - media-server-network
-    restart: unless-stopped
-
-volumes:
-  web-root:
-    driver: local
 
 # NOTE: It is very important that if you are also running a OpenVPN service on the host, that you include the EXACT subnet address for the network interface to use.
 #       The reason for this is to avoid overlapping of IPv4 addresses. This way as long as your openVPN service is not using the 172.16.57.0/24 subnet, you should not have any overlap.
