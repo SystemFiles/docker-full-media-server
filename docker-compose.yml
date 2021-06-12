@@ -7,29 +7,12 @@ version: "3.7"
 # 3. Decide if you would like to mount /config on each service so you can keep a copy on your host of the config and make changes manually if necessary (outside of container)
 
 services:
-  # Front-end jellyfin (reverse-proxy)
-  webserver:
-    container_name: webserver
-    image: nginx:1.21.0-alpine
-    volumes:
-      - web-root:/var/www/html # Volume mount for web-root (optional)
-      - ./nginx/conf.d:/etc/nginx/conf.d # Volume mount for nginx config folder (required)
-      - ./nginx/snippets:/snippets # Volume mount for some nginx config snippets (required)
-      - /etc/ssl/certs:/ssl/certs # Volume mount for SSL certificates, including dhparam (required)
-      - /etc/ssl/private/:/ssl/private # Volume mount for private keys (required)
-    depends_on:
-      - jellyfin
-      - ombi
-    ports:
-      - 80:80
-      - 443:443
-    restart: unless-stopped
-    networks:
-      - media-server-network
-  # NOTE: There are no ports specified for this service since it is accessible using provided nginx configuration
+  # NOTE: There are no ports specified for this service to access it add port mappings or use the nginx reverse proxy included in docker-server-tools
   ombi:
     image: linuxserver/ombi:latest
+    hostname: ombi
     container_name: ombi
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -37,12 +20,13 @@ services:
     volumes:
       - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - docker-server-tools_server-tools
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
     image: linuxserver/jellyfin:version-10.7.5-1
+    hostname: jellyfin
     container_name: jellyfin
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -58,35 +42,37 @@ services:
     # devices:
     #   - /dev/dri:/dev/dri # Remove this if you do not want to use INTEL GPU for hardware excellerated transcoding
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls106
+    hostname: deluge
     container_name: deluge
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=022 #optional
-      - DELUGE_LOGLEVEL=error #optional
+      - UMASK_SET=022 # optional
+      - DELUGE_LOGLEVEL=error # optional
     volumes:
       - /home/ben/mediaserver/deluge:/config # Change path for volume mount
       - /media/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8112:8112
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - docker-server-tools_server-tools
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
     image: linuxserver/sonarr:version-3.0.6.1196
+    hostname: sonarr
     container_name: sonarr
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=022 #optional
+      - UMASK_SET=022 # optional
     volumes:
       - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
       - /media/jellyfin/tv:/tv # Change path for volume mount
@@ -94,12 +80,13 @@ services:
     ports:
       - 127.0.0.1:8989:8989
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - docker-server-tools_server-tools
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
     image: linuxserver/radarr:version-3.2.0.5048
+    hostname: radarr
     container_name: radarr
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -112,36 +99,28 @@ services:
     ports:
       - 127.0.0.1:7878:7878
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - docker-server-tools_server-tools    
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
     image: linuxserver/jackett:version-v0.18.171
+    hostname: jackett
     container_name: jackett
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - AUTO_UPDATE=true #optional
+      - AUTO_UPDATE=true # optional
     volumes:
       - /home/ben/mediaserver/jackett:/config # Change path for volume mount
       - /media/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:9117:9117
     networks:
-      - media-server-network
-    restart: unless-stopped
+      - docker-server-tools_server-tools
 
-volumes:
-  web-root:
-    driver: local
-
-# NOTE: It is very important that if you are also running a OpenVPN service on the host, that you include the EXACT subnet address for the network interface to use.
-#       The reason for this is to avoid overlapping of IPv4 addresses. This way as long as your openVPN service is not using the 172.16.57.0/24 subnet, you should not have any overlap.
 networks:
-  media-server-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.57.0/24
+  # Include the below if integrating with docker-full-media-server project (contains the nginx config)
+  docker-server-tools_server-tools:
+    external: true
