@@ -9,7 +9,7 @@ version: "3.7"
 services:
   # NOTE: There are no ports specified for this service to access it add port mappings or use the nginx reverse proxy included in docker-server-tools
   ombi:
-    image: linuxserver/ombi:latest
+    image: linuxserver/ombi:version-v4.0.1342
     hostname: ombi
     container_name: ombi
     restart: unless-stopped
