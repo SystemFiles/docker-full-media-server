@@ -40,7 +40,8 @@ services:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
     devices:
-      - /dev/dri:/dev/dri
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
     networks:
       - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
