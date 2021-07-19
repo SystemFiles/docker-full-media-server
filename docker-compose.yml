@@ -1,4 +1,4 @@
-version: "3.7"
+version: "4"
 
 # Include all required services configuration
 # Ensure a few things are modified:
@@ -31,7 +31,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=<022> #optional
+      - UMASK_SET=<027> #optional
     volumes:
       - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
       - /media/jellyfin/tv:/data/tvshows # TV Shows location
@@ -39,6 +39,9 @@ services:
     ports:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
+    group_add:
+      - video
+      - render
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
