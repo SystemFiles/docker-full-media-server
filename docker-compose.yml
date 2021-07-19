@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     environment:
       - PUID=1000
-      - PGID=109
+      - PGID=1000
       - TZ=America/New York
       - UMASK_SET=<027> #optional
     volumes:
@@ -42,7 +42,6 @@ services:
     group_add:
       - 109
       - 44
-    privileged: true
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
