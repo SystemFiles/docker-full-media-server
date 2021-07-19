@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=109
       - TZ=America/New York
       - UMASK_SET=<027> #optional
     volumes:
