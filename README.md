@@ -12,7 +12,7 @@ Includes a number of useful automation services and applications to enhance the 
 - [Deluge](https://deluge-torrent.org) as the torrent download client
 - [Ombi](https://ombi.io) as the media request system for users to manage requests for new media to be added to a shared server
 - [Jackett](https://github.com/Jackett/Jackett) to manage indexers for tv and movies from within Sonarr and Radarr services
-- [Bazarr](https://www.bazarr.media) to help manage and download subtitles for all media content (movies and tv shows)
+- [Bazarr](https://www.bazarr.media) [**Not implemented**] to help manage and download subtitles for all media content (movies and tv shows)
 - [Nginx](https://www.nginx.com) Reverse proxy to handle and route incoming requests. Also provides https. (**Moved** see [docker-server-tools](https://github.com/SystemFiles/docker-server-tools))
 
 ## Requirements
