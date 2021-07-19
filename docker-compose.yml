@@ -39,8 +39,8 @@ services:
     ports:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
-    user: 1000:109
     group_add:
+      - 109
       - 44
     privileged: true
     devices:
