@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 # Include all required services configuration
 # Ensure a few things are modified:
@@ -9,7 +9,7 @@ version: "3.7"
 services:
   # NOTE: There are no ports specified for this service to access it add port mappings or use the nginx reverse proxy included in docker-server-tools
   ombi:
-    image: linuxserver/ombi:version-v4.0.1342
+    image: linuxserver/ombi:v4.0.1468-ls102
     hostname: ombi
     container_name: ombi
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
-    image: linuxserver/jellyfin:version-10.7.5-1
+    image: linuxserver/jellyfin:version-10.7.6-1
     hostname: jellyfin
     container_name: jellyfin
     restart: unless-stopped
@@ -31,11 +31,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=<022> #optional
+      - UMASK=022 #optional
     volumes:
       - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
-      - /media/jellyfin/tv:/data/tvshows # TV Shows location
-      - /media/jellyfin/movies:/data/movies # Movies location
+      - /mnt/jellyfin/tv:/data/tvshows # TV Shows location
+      - /mnt/jellyfin/movies:/data/movies # Movies location
     ports:
       - 7359:7359/udp # Discovery on network
       - 1900:1900/udp # Discover on network by DNLA and clients
@@ -45,7 +45,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
-    image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls106
+    image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls121
     hostname: deluge
     container_name: deluge
     restart: unless-stopped
@@ -53,18 +53,18 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=022 # optional
+      - UMASK=022 # optional
       - DELUGE_LOGLEVEL=error # optional
     volumes:
       - /home/ben/mediaserver/deluge:/config # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8112:8112
     networks:
       - docker-server-tools_server-tools
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
-    image: linuxserver/sonarr:version-3.0.6.1196
+    image: linuxserver/sonarr:version-3.0.6.1265
     hostname: sonarr
     container_name: sonarr
     restart: unless-stopped
@@ -72,18 +72,18 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=022 # optional
+      - UMASK=022 # optional
     volumes:
       - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
-      - /media/jellyfin/tv:/tv # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - /mnt/jellyfin/tv:/tv # Change path for volume mount
+      - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8989:8989
     networks:
       - docker-server-tools_server-tools
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
-    image: linuxserver/radarr:version-3.2.0.5048
+    image: linuxserver/radarr:version-3.2.2.5080
     hostname: radarr
     container_name: radarr
     restart: unless-stopped
@@ -91,11 +91,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
-      - UMASK_SET=022 #optional
+      - UMASK=022 #optional
     volumes:
       - /home/ben/mediaserver/radarr:/config # Change path for volume mount
-      - /media/jellyfin/movies:/movies # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - /mnt/jellyfin/movies:/movies # Change path for volume mount
+      - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:7878:7878
     networks:
@@ -103,7 +103,7 @@ services:
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
-    image: linuxserver/jackett:version-v0.18.171
+    image: linuxserver/jackett:version-v0.18.616
     hostname: jackett
     container_name: jackett
     restart: unless-stopped
@@ -114,7 +114,7 @@ services:
       - AUTO_UPDATE=true # optional
     volumes:
       - /home/ben/mediaserver/jackett:/config # Change path for volume mount
-      - /media/jellyfin/downloads:/downloads # Change path for volume mount
+      - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:9117:9117
     networks:
