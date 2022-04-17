@@ -9,7 +9,7 @@ version: "3.8"
 services:
   # NOTE: There are no ports specified for this service to access it add port mappings or use the nginx reverse proxy included in docker-server-tools
   ombi:
-    image: linuxserver/ombi:v4.0.1468-ls102
+    image: linuxserver/ombi:version-v4.16.11
     hostname: ombi
     container_name: ombi
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
-    image: linuxserver/jellyfin:version-10.7.6-1
+    image: linuxserver/jellyfin:version-10.7.7-1
     hostname: jellyfin
     container_name: jellyfin
     restart: unless-stopped
@@ -45,7 +45,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
-    image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls121
+    image: linuxserver/deluge:version-2.0.5-r1
     hostname: deluge
     container_name: deluge
     restart: unless-stopped
@@ -64,7 +64,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
-    image: linuxserver/sonarr:version-3.0.6.1265
+    image: linuxserver/sonarr:version-3.0.7.1477
     hostname: sonarr
     container_name: sonarr
     restart: unless-stopped
@@ -83,7 +83,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
-    image: linuxserver/radarr:version-3.2.2.5080
+    image: linuxserver/radarr:version-4.1.0.6175
     hostname: radarr
     container_name: radarr
     restart: unless-stopped
@@ -103,7 +103,7 @@ services:
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
-    image: linuxserver/jackett:version-v0.18.616
+    image: linuxserver/jackett:version-v0.20.892
     hostname: jackett
     container_name: jackett
     restart: unless-stopped
