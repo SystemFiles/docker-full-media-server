@@ -1,10 +1,24 @@
 
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+
+## [ v3.0.4 ] - 2022-8-1 16:46:32
+
+> BENS-0002 Update PublishedServerUrl Variable for Jellyfin DLNA
+
+### Changed
+
+- `dcaab10` - BENS-0002 updated versions
+- `9df6a17` - BENS-0002 updated configuration for new install
+- `abe262a` - BENS-0002 downgrade radarr back to 3.x to resolve problems with API
+- `52feceb` - BENS-0002 add https to server url in publish
+- `5bb3b78` - BENS-0002 set environment variable for published server url
 
 
 
@@ -16,5 +30,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `b70f73a` - BENS-0001 start tracking changes through changelog
 - `0cfbdff` - BENS-0001 updated versions to latest patch for compose services
-
 

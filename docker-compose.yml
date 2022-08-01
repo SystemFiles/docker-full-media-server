@@ -18,7 +18,7 @@ services:
       - PGID=1000
       - TZ=America/New York
     volumes:
-      - /home/ben/mediaserver/ombi:/config # Change volume mount for config files
+      - /cfgdata/ombi:/config # Change volume mount for config files
     networks:
       - docker-server-tools_server-tools
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
@@ -31,9 +31,10 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New York
+      - PublishedServerUrl="https://jelly.media.sykesdev.ca"
       - UMASK=022 #optional
     volumes:
-      - /home/ben/mediaserver/jellyfin:/config # Jellyfin config / settings
+      - /cfgdata/jellyfin:/config # Jellyfin config / settings
       - /mnt/jellyfin/tv:/data/tvshows # TV Shows location
       - /mnt/jellyfin/movies:/data/movies # Movies location
     ports:
@@ -56,7 +57,7 @@ services:
       - UMASK=022 # optional
       - DELUGE_LOGLEVEL=error # optional
     volumes:
-      - /home/ben/mediaserver/deluge:/config # Change path for volume mount
+      - /cfgdata/deluge:/config # Change path for volume mount
       - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:8112:8112
@@ -74,7 +75,7 @@ services:
       - TZ=America/New York
       - UMASK=022 # optional
     volumes:
-      - /home/ben/mediaserver/sonarr:/config # Change path for volume mount
+      - /cfgdata/sonarr:/config # Change path for volume mount
       - /mnt/jellyfin/tv:/tv # Change path for volume mount
       - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
@@ -83,7 +84,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
-    image: linuxserver/radarr:version-4.1.0.6175
+    image: linuxserver/radarr:4.1.0
     hostname: radarr
     container_name: radarr
     restart: unless-stopped
@@ -93,7 +94,7 @@ services:
       - TZ=America/New York
       - UMASK=022 #optional
     volumes:
-      - /home/ben/mediaserver/radarr:/config # Change path for volume mount
+      - /cfgdata/radarr:/config # Change path for volume mount
       - /mnt/jellyfin/movies:/movies # Change path for volume mount
       - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
@@ -103,7 +104,7 @@ services:
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
-    image: linuxserver/jackett:version-v0.20.892
+    image: linuxserver/jackett:0.20.1406
     hostname: jackett
     container_name: jackett
     restart: unless-stopped
@@ -113,7 +114,7 @@ services:
       - TZ=America/New York
       - AUTO_UPDATE=true # optional
     volumes:
-      - /home/ben/mediaserver/jackett:/config # Change path for volume mount
+      - /cfgdata/jackett:/config # Change path for volume mount
       - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
     ports:
       - 127.0.0.1:9117:9117
