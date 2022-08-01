@@ -120,6 +120,19 @@ services:
       - 127.0.0.1:9117:9117
     networks:
       - docker-server-tools_server-tools
+  # CloudFlare Solver
+  flaresolverr:
+    image: flaresolverr/flaresolverr:v2.2.6
+    hostname: flaresolverr
+    container_name: flaresolverr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=America/New York
+    networks:
+      - docker-server-tools_server-tools
 
 networks:
   # Include the below if integrating with docker-full-media-server project (contains the nginx config)

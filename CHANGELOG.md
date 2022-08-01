@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [ v3.0.5 ] - 2022-8-1 18:33:36
+
+> BENS-0003 Add CloudFlare solver for Jackett
+
+### Changed
+
+- `81393e9` - BENS-0003 added flaresolverr to netwokr
+- `59e3500` - BENS-0003 added flaresolverr to the stack
+
+
+
 ## [ v3.0.4 ] - 2022-8-1 16:46:32
 
 > BENS-0002 Update PublishedServerUrl Variable for Jellyfin DLNA
@@ -30,4 +41,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `b70f73a` - BENS-0001 start tracking changes through changelog
 - `0cfbdff` - BENS-0001 updated versions to latest patch for compose services
-
