@@ -23,7 +23,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
-    image: linuxserver/jellyfin:version-10.7.7-1
+    image: linuxserver/jellyfin:10.8.3
     hostname: jellyfin
     container_name: jellyfin
     restart: unless-stopped

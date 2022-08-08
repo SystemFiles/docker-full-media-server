@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [ v3.0.6 ] - 2022-8-8 1:28:26
+
+> BENS-0004 Upgrade Server to 10.8.1+ to support client on Android
+
+### Changed
+
+- `2542d52` - BENS-0004 updated to 10.8.3
+
+
+
 ## [ v3.0.5 ] - 2022-8-1 18:33:36
 
 > BENS-0003 Add CloudFlare solver for Jackett
