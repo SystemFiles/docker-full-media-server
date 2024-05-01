@@ -103,6 +103,8 @@ services:
       - /mnt/jellyfin/tv:/tv #optional
     ports:
       - 127.0.0.1:6767:6767
+    networks:
+      - docker-server-tools_server-tools
   prowlarr:
     image: linuxserver/prowlarr:1.16.2
     hostname: prowlarr
@@ -116,6 +118,8 @@ services:
       - /cfgdata/prowlarr:/config
     ports:
       - 127.0.0.1:9696:9696
+    networks:
+      - docker-server-tools_server-tools
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
