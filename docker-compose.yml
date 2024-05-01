@@ -7,23 +7,9 @@ version: "3.8"
 # 3. Decide if you would like to mount /config on each service so you can keep a copy on your host of the config and make changes manually if necessary (outside of container)
 
 services:
-  # NOTE: There are no ports specified for this service to access it add port mappings or use the nginx reverse proxy included in docker-server-tools
-  ombi:
-    image: linuxserver/ombi:version-v4.16.11
-    hostname: ombi
-    container_name: ombi
-    restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New York
-    volumes:
-      - /cfgdata/ombi:/config # Change volume mount for config files
-    networks:
-      - docker-server-tools_server-tools
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
-    image: linuxserver/jellyfin:10.8.3
+    image: linuxserver/jellyfin:10.8.13
     hostname: jellyfin
     container_name: jellyfin
     restart: unless-stopped
@@ -46,7 +32,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
-    image: linuxserver/deluge:version-2.0.5-r1
+    image: linuxserver/deluge:version-2.1.1
     hostname: deluge
     container_name: deluge
     restart: unless-stopped
@@ -65,7 +51,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
-    image: linuxserver/sonarr:version-3.0.7.1477
+    image: linuxserver/sonarr:4.0.4
     hostname: sonarr
     container_name: sonarr
     restart: unless-stopped
@@ -84,7 +70,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
-    image: linuxserver/radarr:4.1.0
+    image: linuxserver/radarr:5.4.6
     hostname: radarr
     container_name: radarr
     restart: unless-stopped
@@ -100,7 +86,36 @@ services:
     ports:
       - 127.0.0.1:7878:7878
     networks:
-      - docker-server-tools_server-tools    
+      - docker-server-tools_server-tools
+  bazarr:
+    image: linuxserver/bazarr:version-v1.4.2
+    hostname: bazarr
+    container_name: bazarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+      - UMASK=022 #optional
+    volumes:
+      - /cfgdata/bazarr:/config
+      - /mnt/jellyfin/movies:/movies #optional
+      - /mnt/jellyfin/tv:/tv #optional
+    ports:
+      - 127.0.0.1:6767:6767
+  prowlarr:
+    image: linuxserver/prowlarr:1.16.2
+    hostname: prowlarr
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New York
+    volumes:
+      - /cfgdata/prowlarr:/config
+    ports:
+      - 127.0.0.1:9696:9696
   # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
   # Also: Ensure trackers are setup from config
   jackett:
