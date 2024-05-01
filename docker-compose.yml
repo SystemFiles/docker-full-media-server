@@ -32,7 +32,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
-    image: linuxserver/deluge:version-2.1.1
+    image: linuxserver/deluge:version-2.1.1-r10
     hostname: deluge
     container_name: deluge
     restart: unless-stopped
