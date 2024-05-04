@@ -120,25 +120,6 @@ services:
       - 127.0.0.1:9696:9696
     networks:
       - docker-server-tools_server-tools
-  # NOTE: With Jackett, ensure blackhole directory is setup at /downloads
-  # Also: Ensure trackers are setup from config
-  jackett:
-    image: linuxserver/jackett:0.20.1406
-    hostname: jackett
-    container_name: jackett
-    restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Toronto
-      - AUTO_UPDATE=true # optional
-    volumes:
-      - /cfgdata/jackett:/config # Change path for volume mount
-      - /mnt/jellyfin/downloads:/downloads # Change path for volume mount
-    ports:
-      - 127.0.0.1:9117:9117
-    networks:
-      - docker-server-tools_server-tools
   # CloudFlare Solver
   flaresolverr:
     image: flaresolverr/flaresolverr:v2.2.6
@@ -150,6 +131,8 @@ services:
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=America/Toronto
+    ports:
+      - 127.0.0.1:8191:8191
     networks:
       - docker-server-tools_server-tools
 
