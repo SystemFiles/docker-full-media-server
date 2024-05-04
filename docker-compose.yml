@@ -16,7 +16,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
       - PublishedServerUrl="https://jelly.media.sykesdev.ca"
       - UMASK=022 #optional
     volumes:
@@ -39,7 +39,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
       - UMASK=022 # optional
       - DELUGE_LOGLEVEL=error # optional
     volumes:
@@ -58,7 +58,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
       - UMASK=022 # optional
     volumes:
       - /cfgdata/sonarr:/config # Change path for volume mount
@@ -77,7 +77,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
       - UMASK=022 #optional
     volumes:
       - /cfgdata/radarr:/config # Change path for volume mount
@@ -95,7 +95,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
       - UMASK=022 #optional
     volumes:
       - /cfgdata/bazarr:/config
@@ -113,7 +113,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
     volumes:
       - /cfgdata/prowlarr:/config
     ports:
@@ -130,7 +130,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New York
+      - TZ=America/Toronto
       - AUTO_UPDATE=true # optional
     volumes:
       - /cfgdata/jackett:/config # Change path for volume mount
@@ -149,7 +149,7 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-info}
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-      - TZ=America/New York
+      - TZ=America/Toronto
     networks:
       - docker-server-tools_server-tools
 
