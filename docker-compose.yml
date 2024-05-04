@@ -122,7 +122,7 @@ services:
       - docker-server-tools_server-tools
   # CloudFlare Solver
   flaresolverr:
-    image: flaresolverr/flaresolverr:v2.2.6
+    image: flaresolverr/flaresolverr:v3.3.17
     hostname: flaresolverr
     container_name: flaresolverr
     restart: unless-stopped
