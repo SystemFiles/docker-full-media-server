@@ -9,7 +9,7 @@ version: "3.8"
 services:
   # NOTE: Make sure that libraries are set to /tv and /movies in configuration
   jellyfin:
-    image: linuxserver/jellyfin:10.8.13
+    image: linuxserver/jellyfin:10.10.7
     hostname: jellyfin
     container_name: jellyfin
     restart: unless-stopped
@@ -23,9 +23,6 @@ services:
       - /cfgdata/jellyfin:/config # Jellyfin config / settings
       - /mnt/jellyfin/tv:/data/tvshows # TV Shows location
       - /mnt/jellyfin/movies:/data/movies # Movies location
-    ports:
-      - 7359:7359/udp # Discovery on network
-      - 1900:1900/udp # Discover on network by DNLA and clients
     # devices:
     #   - /dev/dri:/dev/dri # Remove this if you do not want to use INTEL GPU for hardware excellerated transcoding
     networks:
@@ -51,7 +48,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: With Sonarr, when setting up downloader, make sure ip address is "deluge:8112"
   sonarr:
-    image: linuxserver/sonarr:4.0.4
+    image: linuxserver/sonarr:4.0.14
     hostname: sonarr
     container_name: sonarr
     restart: unless-stopped
@@ -70,7 +67,7 @@ services:
       - docker-server-tools_server-tools
   # NOTE: Similar to Sonarr, when setting up downloader make sure to enter "deluge:8112" for the host and port respectively
   radarr:
-    image: linuxserver/radarr:5.4.6
+    image: linuxserver/radarr:5.21.1
     hostname: radarr
     container_name: radarr
     restart: unless-stopped
@@ -88,7 +85,7 @@ services:
     networks:
       - docker-server-tools_server-tools
   bazarr:
-    image: linuxserver/bazarr:version-v1.4.2
+    image: linuxserver/bazarr:1.5.1
     hostname: bazarr
     container_name: bazarr
     restart: unless-stopped
@@ -106,7 +103,7 @@ services:
     networks:
       - docker-server-tools_server-tools
   prowlarr:
-    image: linuxserver/prowlarr:1.16.2
+    image: linuxserver/prowlarr:1.33.3
     hostname: prowlarr
     container_name: prowlarr
     restart: unless-stopped
@@ -122,7 +119,7 @@ services:
       - docker-server-tools_server-tools
   # CloudFlare Solver
   flaresolverr:
-    image: flaresolverr/flaresolverr:v3.3.17
+    image: flaresolverr/flaresolverr:v3.3.21
     hostname: flaresolverr
     container_name: flaresolverr
     restart: unless-stopped
