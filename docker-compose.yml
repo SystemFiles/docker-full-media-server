@@ -41,7 +41,7 @@ services:
     volumes:
       - /cfgdata/jellyseerr:/app/config
     networks:
-      - docker-server-tools_server_tools
+      - docker-server-tools_server-tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge:version-2.1.1-r10
