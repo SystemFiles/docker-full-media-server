@@ -27,6 +27,21 @@ services:
     #   - /dev/dri:/dev/dri # Remove this if you do not want to use INTEL GPU for hardware excellerated transcoding
     networks:
       - docker-server-tools_server-tools
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:2.5.2
+    hostname: jellyseerr
+    container_name: jellyseerr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Toronto
+      - LOG_LEVEL=info
+      - PORT=5055
+    volumes:
+      - /cfgdata/jellyseerr:/app/config
+    networks:
+      - docker-server-tools_server_tools
   # NOTE: Make sure to set download directory to /downloads
   deluge:
     image: linuxserver/deluge:version-2.1.1-r10
